@@ -29,8 +29,8 @@ public class App {
 
 			Customer customer = new Customer();
 			customer.setName("Test");
-			customer.setPhoneNumber(Long.parseLong("9100520873"));
-			customer.setEmail("poluru.sairam@gmail.com");
+			customer.setPhoneNumber(1023456789);
+			customer.setEmail("azure@gmail.com");
 			customer.setAddress("Bangalore - 560100");
 
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -38,6 +38,8 @@ public class App {
 
 			cloudQueueMessage = new CloudQueueMessage(customerData);
 			cloudQueue.addMessage(cloudQueueMessage);
+			
+			System.out.println("Message added into queue.....");
 		} catch (Exception e) {
 			System.out.println("Exception : " + e.getMessage());
 		}
@@ -60,9 +62,10 @@ public class App {
 			for(int i=0; i<cachedMessageCount; i++)
 			{
 				cloudQueueMessage = cloudQueue.retrieveMessage();
-				System.out.println("Queue message : " + cloudQueueMessage.getMessageContentAsString());
+				System.out.println("Queue message : " + cloudQueueMessage.getMessageContentAsString() + " is processed");
 			    if (cloudQueueMessage != null)
-			    {			        
+			    {
+			    	System.out.println("Queue message : " + cloudQueueMessage.getMessageContentAsString() + " is deleted");
 			    	cloudQueue.deleteMessage(cloudQueueMessage);
 			    }
 			}

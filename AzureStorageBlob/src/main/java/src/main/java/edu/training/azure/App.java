@@ -28,7 +28,7 @@ public class App {
 
 	public static void main(String[] args)
 			throws InvalidKeyException, URISyntaxException, StorageException, JsonProcessingException {
-		//uploadBlob();
+		uploadBlob();
 		viewBlob();
 		downloadBlob();
 	}
@@ -44,7 +44,7 @@ public class App {
 		try {
 			cloudStorageAccount = CloudStorageAccount.parse(connectionString);
 			cloudBlobClient = cloudStorageAccount.createCloudBlobClient();
-			container = cloudBlobClient.getContainerReference("testcontainer");
+			container = cloudBlobClient.getContainerReference("test");
 
 			System.out.println("Creating container: " + container.getName());
 			container.createIfNotExists(BlobContainerPublicAccessType.CONTAINER, new BlobRequestOptions(),
@@ -53,14 +53,14 @@ public class App {
 
 			Customer customer = new Customer();
 			customer.setName("Test");
-			customer.setPhoneNumber(Long.parseLong("9100520873"));
-			customer.setEmail("poluru.sairam@gmail.com");
+			customer.setPhoneNumber(1023456789);
+			customer.setEmail("azure@gmail.com");
 			customer.setAddress("Bangalore - 560100");
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			String customerData = objectMapper.writeValueAsString(customer);
 
-			file = File.createTempFile("customer" + uniqueId, ".json");
+			file = File.createTempFile("customer-" + uniqueId, ".json");
 			System.out.println("Creating a sample file at: " + file.toString());
 			output = new BufferedWriter(new FileWriter(file));
 			output.write(customerData);
@@ -84,7 +84,7 @@ public class App {
 		try {
 			cloudStorageAccount = CloudStorageAccount.parse(connectionString);
 			cloudBlobClient = cloudStorageAccount.createCloudBlobClient();
-			container = cloudBlobClient.getContainerReference("testcontainer");
+			container = cloudBlobClient.getContainerReference("test");
 			System.out.println("List of blobs in container");
 			for (ListBlobItem blobItem : container.listBlobs()) {
 				System.out.println("URI of blob is: " + blobItem.getUri());
@@ -104,7 +104,7 @@ public class App {
 		try {
 			cloudStorageAccount = CloudStorageAccount.parse(connectionString);
 			cloudBlobClient = cloudStorageAccount.createCloudBlobClient();
-			container = cloudBlobClient.getContainerReference("testcontainer");
+			container = cloudBlobClient.getContainerReference("test");
 			for (ListBlobItem blobItem : container.listBlobs()) {				
 				String blobName = ((CloudBlob) blobItem).getName();
 				System.out.println("Blob name: " + blobName);
